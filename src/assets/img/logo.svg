@@ -117,6 +117,11 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 5.2916668,52.916668 7.9375002,58.208335 12.829536,54.088726 55.562501,15.875 52.916668,13.229167 H 50.270835 L 39.687501,15.875 10.583333,26.458332 5.2916669,39.687499 l -2.6458336,7.9375 z"
+       id="path1333"
+       sodipodi:nodetypes="ccccccccccc" />
     <g
        transform="matrix(1.4953074,0,0,1.5860527,3.5517603,-1.0867418)"
        style="display:inline;fill:#5dca90;fill-rule:nonzero;stroke:none;stroke-width:0.642259;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none"
