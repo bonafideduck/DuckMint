@@ -22,39 +22,52 @@ async function fetchTransactions(offset = 0) {
 
 export function TransactionRetriever() {
   let [state, setState] = useState({
-    status: 'idle',
+    status: 'init',
     offset: -1,
     oldest: new Date(),
   });
   let [appContext, setAppContext] = useContext(AppContext);
 
   useEffect(() => {
-    let { status, reqTransDate, offset, oldest } = state;
-    if (status === 'retrieving') {
-      return;
-    }
-    if (reqTransDate && reqTransDate > oldest) {
-      return;
+    let { status, offset, oldest } = state;
+    let { reqTransDate } = appContext;
+
+    switch (status) {
+      case 'init':
+        break;
+      case 'idle':
+        if (!reqTransDate || (reqTransDate > oldest)) {
+          return;
+        }
+        return; //force 
+        // break;
+      case 'retrieving':
+      default:
+        return;
     }
 
     offset += 1;
     fetchTransactions(offset).then(
       (response) => {
-        let transactions = [...appContext.transactions, ...response.json()];
-        oldest = transactions.reduce((sum, transaction) =>
-          Math.min(sum, transaction.date, oldest)
+        let transactions = appContext.transactions || [];
+        transactions = [...transactions, ...response.set[0].data];
+        oldest = transactions.reduce(
+          (sum, transaction) => Math.min(sum, new Date(transaction.date)),
+          oldest
         );
+        // Math.min converts this to an int.
+        oldest = new Date(oldest);
 
         setAppContext({ ...appContext, transactions });
         setState({ status: 'idle', offset, oldest });
       },
-      (a, b, c) => {
+      () => {
         // Just leave the state in retrieving.
         console.log('DuckMint: failed to retrieve transaction');
       }
     );
     setState({ status: 'retrieving', offset, oldest });
-  }, [appContext, setAppContext, state]);
+  }, [appContext, setAppContext, state, setState]);
 
   return '';
 }

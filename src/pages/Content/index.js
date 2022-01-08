@@ -13,7 +13,7 @@ window.onload = (event) => {
   }, 3000);
 };
 
-// if (module.hot) module.hot.accept();
+if (module.hot) module.hot.accept();
 
 console.log('MWE: Content script works!');
 console.log('MWE: Must reload extension for modifications to take effect.');
