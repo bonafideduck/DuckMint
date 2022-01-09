@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { TransactionRetriever } from './TransactionRetriever';
 import { ContextProvider } from './ContextProvider';
+import { Watcher } from './Watcher';
 
 function Child({ el }) {
   return ReactDOM.createPortal(<h2>Portal Test</h2>, el);
@@ -12,7 +13,7 @@ export function ContentScript() {
   console.log('el', el);
   return (
     <ContextProvider>
-      <h1>Hello World</h1>
+      <Watcher />
       {el && <Child el={el} />}
       <TransactionRetriever />
     </ContextProvider>
