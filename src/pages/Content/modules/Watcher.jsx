@@ -4,35 +4,49 @@ import { AppContext } from './ContextProvider';
 export function Watcher() {
   let [state, setState] = useState({
     URL: document.URL,
-    popstates: 0,
-    changehashes: 0,
+    popStates: 0,
+    hashChanges: 0,
+    onInterval: 0,
   });
 
   useEffect(() => {
-    const onPopstate = () => {
-      console.log("MWE: onPopstate");
-      setState({ ...state, popstates: state.popstates + 1, URL: document.URL });
+    const onPopState = () => {
+      console.log("MWE: onPopState");
+      setState({ ...state, popStates: state.popStates + 1, URL: document.URL });
     };
-    window.addEventListener('popstate', onPopstate);
-    return () => { window.removeEventListener('popstate', onPopstate) };
+    window.addEventListener('popstate', onPopState);
+    return () => { window.removeEventListener('popstate', onPopState) };
   }, [state]);
 
   useEffect(() => {
-    const onChangehash = () => {
-      console.log("MWE: onPopstate");
-      setState({ ...state, changehashes: state.changehashes + 1, URL: document.URL });
+    const onHashChange = () => {
+      console.log("MWE: onPopState");
+      setState({ ...state, hashChanges: state.hashChanges + 1, URL: document.URL });
     };
-    window.addEventListener('changehash', onChangehash);
-    return () => { window.removeEventListener('changehash', onChangehash) };
+    window.addEventListener('hashchange', onHashChange);
+    return () => { window.removeEventListener('hashchange', onHashChange) };
+  }, [state]);
+
+  useEffect(() => {
+    const onInterval = () => {
+      if (document.URL != state.URL) {
+        console.log("MWE: onInterval");
+        setState({ ...state, onInterval: state.onInterval + 1, URL: document.URL });
+      }
+    };
+    let interval = setInterval(onInterval, 250);
+    return () => { clearInterval(interval) }
   }, [state]);
 
   return (
     <div style={{ border: "3px solid orange", margin: "16px", padding: "4px" }}>
       URL: {decodeURIComponent(state.URL)}
       <br></br>
-      popstates: {state.popstates}
+      popStates: {state.popStates}
       <br></br>
-      changehashes: {state.changehashes}
+      hashChanges: {state.hashChanges}
+      <br></br>
+      onInterval: {state.onInterval}
     </div>
   );
 }

@@ -13,12 +13,11 @@
   "content_scripts": [
     {
       "matches": [
-        "https://mint.intuit.com/transaction.event",
-        "https://accounts.intuit.com/index.html"
+        "https://mint.intuit.com/*"
       ],
       "js": ["contentScript.bundle.js"],
       "css": ["content.styles.css"]
-    }
+    } 
   ],
   "web_accessible_resources": [
     {
