@@ -4,9 +4,8 @@ export const AppContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState({
-    name: 'Learning React',
-    author: 'John Doe',
-    SerialNumber: 1234,
+    debug: true,
+    transactions: [],
   });
   document.mwec = context;
   document.mwesc = setContext;
