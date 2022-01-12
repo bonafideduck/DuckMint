@@ -10,7 +10,7 @@ window.onload = (event) => {
     console.log('MWE: Started');
     render(<ContentScript />, app);
     console.log('MWE: Finished');
-  }, 3000);
+  }, 6000);
 };
 
 if (module.hot) module.hot.accept();

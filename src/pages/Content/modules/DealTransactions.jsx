@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from './ContextProvider';
 
 const monthNum = {
@@ -15,6 +15,8 @@ const monthNum = {
   "NOV": "11",
   "DEC": "12",
 };
+
+
 function mintDate(date) {
   if (typeof (date) != 'string') {
     return null;
@@ -37,6 +39,7 @@ function mintDate(date) {
 }
 
 export function DealTransactions() {
+  console.log("MWE: DealTransactions Entered ");
   let [appContext] = useContext(AppContext);
 
   if (appContext.location.pathname !== '/transaction.event') {
@@ -44,12 +47,25 @@ export function DealTransactions() {
   }
 
   let trans = [...appContext.transactions];
-  let rows = document.querySelectorAll("#transaction-list tbody tr");
+  let rows = [...document.querySelectorAll("#transaction-list tbody tr")];
   let children = [];
+
+  console.log("MWE: DealTransactions ForRows ");
 
   for (let row of rows) {
     const pending = row.classList.contains('pending');
-    const date = mintDate(row.children[1].innerText);
-    console.log(trans, children, pending, date);
+    const date = mintDate(row.querySelector("td.date").innerText);
+    let description = row.querySelector("td.description").innerText;
+    let category = row.querySelector("td.cat").innerText;
+    let amount = row.querySelector("td.money").innerText;
+    let tran = trans.shift();
+
+    console.log("DealTransactions");
+    console.log("DealTransactions", pending, date, description, category, amount);
+    console.log("DealTransactions", tran);
+    children.push({transaction: tran, el: row, description, amount, pending, date})
   }
+  document.mwechilren = children;
+  console.log("MWE: DealTransactions Return Children");
+  return <></>
 }
