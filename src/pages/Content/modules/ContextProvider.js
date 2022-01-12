@@ -6,6 +6,7 @@ export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState({
     debug: true,
     transactions: [],
+    location: document.location,
   });
   document.mwec = context;
   document.mwesc = setContext;

@@ -13,7 +13,7 @@ export function Watcher() {
     const onPopState = () => {
       console.log("MWE: onPopState");
       setState({ ...state, popStates: state.popStates + 1 });
-      setAppContext({ ...appContext, URL: document.URL });
+      setAppContext({ ...appContext, location: document.location });
     };
     window.addEventListener('popstate', onPopState);
     return () => { window.removeEventListener('popstate', onPopState) };
@@ -23,7 +23,7 @@ export function Watcher() {
     const onHashChange = () => {
       console.log("MWE: onPopState");
       setState({ ...state, hashChanges: state.hashChanges + 1 });
-      setAppContext({ ...appContext, URL: document.URL });
+      setAppContext({ ...appContext, location: document.location });
     };
     window.addEventListener('hashchange', onHashChange);
     return () => { window.removeEventListener('hashchange', onHashChange) };
@@ -31,10 +31,10 @@ export function Watcher() {
 
   useEffect(() => {
     const onInterval = () => {
-      if (document.URL !== appContext.URL) {
+      if (document.location.href !== appContext.location.href) {
         console.log("MWE: onInterval");
         setState({ ...state, onInterval: state.onInterval + 1 });
-        setAppContext({ ...appContext, URL: document.URL });
+        setAppContext({ ...appContext, location: document.location });
       }
     };
     let interval = setInterval(onInterval, 250);
@@ -47,7 +47,7 @@ export function Watcher() {
 
   return (
     <div style={{ border: "3px solid orange", margin: "16px", padding: "4px" }}>
-      URL: {decodeURIComponent(appContext.URL)}
+      URL: {decodeURIComponent(appContext.location.href)}
       <br></br>
       popStates: {state.popStates}
       <br></br>
