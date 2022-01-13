@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { AppContext } from './ContextProvider';
+import { mintDate } from './mintDate';
 
 async function fetchTransactions(offset = 0) {
   const url =
@@ -50,7 +51,9 @@ export function TransactionRetriever() {
     fetchTransactions(offset).then(
       (response) => {
         let transactions = appContext.transactions || [];
-        transactions = [...transactions, ...response.set[0].data];
+        let newTrans = response.set[0].data;
+        newTrans.forEach(t => t.date = mintDate(t.date));
+        transactions = [...transactions, ...newTrans];
         oldest = transactions.reduce(
           (sum, transaction) => Math.min(sum, new Date(transaction.date)),
           oldest

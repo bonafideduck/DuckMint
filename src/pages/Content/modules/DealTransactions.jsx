@@ -1,42 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from './ContextProvider';
-
-const monthNum = {
-  "JAN": "01",
-  "FEB": "02",
-  "MAR": "03",
-  "APR": "04",
-  "MAY": "05",
-  "JUN": "06",
-  "JUL": "07",
-  "AUG": "08",
-  "SEP": "09",
-  "OCT": "10",
-  "NOV": "11",
-  "DEC": "12",
-};
-
-
-function mintDate(date) {
-  if (typeof (date) != 'string') {
-    return null;
-  }
-  if (date.match(/^\d\d\/\d\d\/\d\d$/)) {
-    return date
-  }
-  let match = date.match(/^([A-Z]{3}) (\d\d?)$/);
-
-  if (match) {
-    let month = monthNum[match[1]];
-    if (!month) {
-      return null;
-    }
-    let day = match[2];
-    day = day.length === 1 ? `0${day}` : day;
-    let year = (new Date()).getYear() - 100;
-    return `${month}/${day}/${year}`;
-   }
-}
+import { mineTransRow } from './mineTransRow';
 
 export function DealTransactions() {
   console.log("MWE: DealTransactions Entered ");
@@ -52,20 +16,31 @@ export function DealTransactions() {
 
   console.log("MWE: DealTransactions ForRows ");
 
-  for (let row of rows) {
-    const pending = row.classList.contains('pending');
-    const date = mintDate(row.querySelector("td.date").innerText);
-    let description = row.querySelector("td.description").innerText;
-    let category = row.querySelector("td.cat").innerText;
-    let amount = row.querySelector("td.money").innerText;
-    let tran = trans.shift();
-
-    console.log("DealTransactions");
-    console.log("DealTransactions", pending, date, description, category, amount);
-    console.log("DealTransactions", tran);
-    children.push({transaction: tran, el: row, description, amount, pending, date})
+  for (let [key, row] of rows.entries()) {
+    let child = mineTransRow(row);
+    let index = trans.findIndex((t) =>
+      (t.date === child.date) &&
+      (t.merchant === child.description) &&
+      (t.category === child.category) &&
+      (t.isDebit ? "-" : "" + t.amount === child.amount)
+    );
+    if (index >= 0) {
+      child.key = trans[index].id;
+      child.note = trans[index].note;
+      trans.splice(index, 1);
+    } else {
+      child.key = key;
+      child.note = "";
+    }
+    child.pending = child.pending ? 1 : 0;
+    children.push(
+      <div key={child.key}
+        {...child} >
+        <pre>{JSON.stringify(child, 0, 2)}</pre>
+      </div>
+    );
   }
   document.mwechilren = children;
   console.log("MWE: DealTransactions Return Children");
-  return <></>
+  return <>{children}</>
 }
