@@ -1,6 +1,20 @@
 import React, { useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mineTransRow } from './mineTransRow';
+import { RowPortal } from './RowPortal';
+
+function getOrCreateContainer(row) {
+  let container = row.querySelector('td.container');
+  console.log("MWE: getOrCreateContainer");
+  if (!container) {
+    let peer = row.querySelector('td.date');
+    container = document.createElement('td');
+    container.className = 'container';
+    container.innerText = "XYZ";
+    peer.before(container);
+  }
+  return container;
+}
 
 export function DealTransactions() {
   console.log("MWE: DealTransactions Entered ");
@@ -34,10 +48,11 @@ export function DealTransactions() {
     }
     child.pending = child.pending ? 1 : 0;
     children.push(
-      <div key={child.key}
-        {...child} >
-        <pre>{JSON.stringify(child, 0, 2)}</pre>
-      </div>
+      <RowPortal
+        key={child.key}
+        container={getOrCreateContainer(row)}
+        {...child}
+      />
     );
   }
   document.mwechilren = children;
