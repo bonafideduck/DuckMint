@@ -11,7 +11,9 @@ function getOrCreateContainer(row) {
     container = document.createElement('td');
     container.className = 'container';
     container.innerText = "XYZ";
-    peer.before(container);
+    if (peer) {
+      peer.before(container);
+    }
   }
   return container;
 }
@@ -20,7 +22,8 @@ export function DealTransactions() {
   console.log("MWE: DealTransactions Entered ");
   let [appContext] = useContext(AppContext);
 
-  if (appContext.location.pathname !== '/transaction.event') {
+  if (appContext.transRowWait) {
+    console.log("MWE: DealTransactions transRowWait ");
     return '';
   }
 

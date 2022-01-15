@@ -2,7 +2,8 @@ import { useState, useEffect, useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mintDate } from './mintDate';
 
-async function fetchTransactions(offset = 0) {
+async function fetchTransactions(location) {
+  let offset = 0;
   const url =
     'https://mint.intuit.com/app/getJsonData.xevent' +
     '?accountId=0' +
@@ -22,55 +23,34 @@ async function fetchTransactions(offset = 0) {
 }
 
 export function TransactionRetriever() {
-  let [state, setState] = useState({
-    status: 'init',
-    offset: -1,
-    oldest: new Date(),
-  });
+  let [waiting, setWaiting] = useState(false);
   let [appContext, setAppContext] = useContext(AppContext);
 
   useEffect(() => {
-    let { status, offset, oldest } = state;
-    let { reqTransDate } = appContext;
+    let { location, transactions } = appContext;
 
-    switch (status) {
-      case 'init':
-        break;
-      case 'idle':
-        if (!reqTransDate || (reqTransDate > oldest)) {
-          return;
-        }
-        return; //force 
-        // break;
-      case 'retrieving':
-      default:
-        return;
+    if (
+      waiting ||
+      transactions.length !== 0 ||
+      location.pathname !== '/transaction.event'
+    ) {
+      return;
     }
+    setWaiting(true);
 
-    offset += 1;
-    fetchTransactions(offset).then(
+    fetchTransactions(location).then(
       (response) => {
-        let transactions = appContext.transactions || [];
-        let newTrans = response.set[0].data;
-        newTrans.forEach(t => t.date = mintDate(t.date));
-        transactions = [...transactions, ...newTrans];
-        oldest = transactions.reduce(
-          (sum, transaction) => Math.min(sum, new Date(transaction.date)),
-          oldest
-        );
-        // Math.min converts this to an int.
-        oldest = new Date(oldest);
-
+        let transactions = response.set[0].data;
+        transactions.forEach((t) => (t.date = mintDate(t.date)));
         setAppContext({ ...appContext, transactions });
-        setState({ status: 'idle', offset, oldest });
+        setWaiting(false);
       },
       () => {
         // Just leave the state in retrieving.
         console.log('DuckMint: failed to retrieve transaction');
       }
     );
-    setState({ status: 'retrieving', offset, oldest });
-  }, [appContext, setAppContext, state, setState]);
+  }, [appContext, setAppContext, waiting, setWaiting]);
 
   return '';
 }

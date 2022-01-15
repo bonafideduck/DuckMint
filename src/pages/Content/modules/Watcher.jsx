@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from './ContextProvider';
 
+function locationChangeAppUpdates() {
+  return {
+    location: document.location,
+    transactions: [],
+    transRowWait: true
+  };
+}
 export function Watcher() {
   let [state, setState] = useState({
     popStates: 0,
@@ -13,7 +20,7 @@ export function Watcher() {
     const onPopState = () => {
       console.log("MWE: onPopState");
       setState({ ...state, popStates: state.popStates + 1 });
-      setAppContext({ ...appContext, location: document.location });
+      setAppContext({ ...appContext, ...locationChangeAppUpdates()});
     };
     window.addEventListener('popstate', onPopState);
     return () => { window.removeEventListener('popstate', onPopState) };
@@ -23,7 +30,7 @@ export function Watcher() {
     const onHashChange = () => {
       console.log("MWE: onPopState");
       setState({ ...state, hashChanges: state.hashChanges + 1 });
-      setAppContext({ ...appContext, location: document.location });
+      setAppContext({ ...appContext, ...locationChangeAppUpdates() });
     };
     window.addEventListener('hashchange', onHashChange);
     return () => { window.removeEventListener('hashchange', onHashChange) };
@@ -34,7 +41,16 @@ export function Watcher() {
       if (document.location.href !== appContext.location.href) {
         console.log("MWE: onInterval");
         setState({ ...state, onInterval: state.onInterval + 1 });
-        setAppContext({ ...appContext, location: document.location });
+        setAppContext({ ...appContext, ...locationChangeAppUpdates() });
+      } else if (
+        appContext.transRowWait &&
+        appContext.transactions.length !== 0 &&
+        document.location.pathname === '/transaction.event' &&
+        appContext.transactions.length <= document.querySelectorAll("#transaction-list tbody tr").length
+      ) {
+        setTimeout(() => {
+          setAppContext({ ...appContext, transRowWait: false });
+        }, 1000);
       }
     };
     let interval = setInterval(onInterval, 250);

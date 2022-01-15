@@ -7,6 +7,7 @@ export const ContextProvider = ({ children }) => {
     debug: true,
     transactions: [],
     location: document.location,
+    transRowWait: true,
   });
   document.mwec = context;
   document.mwesc = setContext;
