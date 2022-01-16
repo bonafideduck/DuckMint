@@ -4,15 +4,14 @@ import { mineTransRow } from './mineTransRow';
 import { RowPortal } from './RowPortal';
 
 function getOrCreateContainer(row) {
-  let container = row.querySelector('td.container');
+  let container = row.querySelector('td span.duck-container');
   console.log("MWE: getOrCreateContainer");
   if (!container) {
-    let peer = row.querySelector('td.date');
-    container = document.createElement('td');
-    container.className = 'container';
-    container.innerText = "XYZ";
-    if (peer) {
-      peer.before(container);
+    let parent = row.querySelector('td.checkboxes');
+    container = document.createElement('span');
+    container.className = 'duck-container';
+    if (parent) {
+      parent.appendChild(container);
     }
   }
   return container;

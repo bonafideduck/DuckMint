@@ -4,7 +4,7 @@ export const AppContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [context, setContext] = useState({
-    debug: true,
+    debug: false,
     transactions: [],
     location: document.location,
     transRowWait: true,

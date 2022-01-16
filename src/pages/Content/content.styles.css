@@ -1,0 +1,5 @@
+#txnEdit table.transactions tbody td.checkboxes.checkboxes,
+table.transactions tbody td.checkboxes.checkboxes,
+table.transactions tbody td.checkboxes.checkboxes {
+  width: 10%;
+}

@@ -2,6 +2,14 @@ import { useState, useEffect, useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mintDate } from './mintDate';
 
+
+function later(delay) {
+  return new Promise(function(resolve) {
+      setTimeout(resolve, delay);
+  });
+}
+
+
 async function fetchTransactions(location) {
   let offset = 0;
   const url =
@@ -14,10 +22,12 @@ async function fetchTransactions(location) {
     '&task=transactions,txnfilters' +
     '&rnd=113' +
     '&offset=';
+  await later(500);
   let response = await fetch(url + offset);
   if (response.ok) {
     return await response.json();
   } else {
+    await later(1000);
     return response;
   }
 }
@@ -48,6 +58,7 @@ export function TransactionRetriever() {
       () => {
         // Just leave the state in retrieving.
         console.log('DuckMint: failed to retrieve transaction');
+        setWaiting(false);
       }
     );
   }, [appContext, setAppContext, waiting, setWaiting]);
