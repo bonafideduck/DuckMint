@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mineTransRow } from './mineTransRow';
 import { RowPortal } from './RowPortal';
+import { TxnEditPortal } from './TxnEditPortal';
 
 function getOrCreateContainer(row) {
   let container = row.querySelector('td span.duck-container');
@@ -16,6 +17,7 @@ function getOrCreateContainer(row) {
   }
   return container;
 }
+
 
 export function DealTransactions() {
   console.log("MWE: DealTransactions Entered ");
@@ -59,5 +61,8 @@ export function DealTransactions() {
   }
   document.mwechilren = children;
   console.log("MWE: DealTransactions Return Children");
-  return <>{children}</>
+  return <>
+    {children}
+    <TxnEditPortal />
+  </>;
 }
