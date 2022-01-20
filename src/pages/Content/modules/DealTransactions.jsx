@@ -12,7 +12,7 @@ function getOrCreateContainer(row) {
     container = document.createElement('span');
     container.className = 'duck-container';
     if (parent) {
-      parent.appendChild(container);
+      parent.prepend(container);
     }
   }
   return container;
