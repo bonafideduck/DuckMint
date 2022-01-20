@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { TransactionRetriever } from './TransactionRetriever';
+import { TxnRetriever } from './TxnRetriever';
 import { ContextProvider } from './ContextProvider';
 import { Watcher } from './Watcher';
-import { DealTransactions } from './DealTransactions';
+import { TxnDealer } from './TxnDealer';
 
 function Child({ el }) {
   return ReactDOM.createPortal(<h2>Portal Test</h2>, el);
@@ -16,8 +16,8 @@ export function ContentScript() {
     <ContextProvider>
       <Watcher />
       {el && <Child el={el} />}
-      <TransactionRetriever />
-      <DealTransactions />
+      <TxnRetriever />
+      <TxnDealer />
     </ContextProvider>
   );
 }

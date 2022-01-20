@@ -32,7 +32,7 @@ async function fetchTransactions(location) {
   }
 }
 
-export function TransactionRetriever() {
+export function TxnRetriever() {
   let [waiting, setWaiting] = useState(false);
   let [appContext, setAppContext] = useContext(AppContext);
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mineTransRow } from './mineTransRow';
-import { RowPortal } from './RowPortal';
+import { RowPortal } from './TxnRowPortal';
 import { TxnEditPortal } from './TxnEditPortal';
 
 function getOrCreateContainer(row) {
@@ -19,7 +19,7 @@ function getOrCreateContainer(row) {
 }
 
 
-export function DealTransactions() {
+export function TxnDealer() {
   console.log("MWE: DealTransactions Entered ");
   let [appContext] = useContext(AppContext);
 
