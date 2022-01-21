@@ -13,6 +13,7 @@ const monthNum = {
   "DEC": "12",
 };
 
+// @ts-ignore
 export function mintDate(date) {
   if (typeof date != 'string') {
     return null;
@@ -23,12 +24,14 @@ export function mintDate(date) {
   let match = date.match(/^([A-Za-z]{3}) (\d\d?)$/);
 
   if (match) {
+    // @ts-ignore
     let month = monthNum[match[1].toUpperCase()];
     if (!month) {
       return null;
     }
     let day = match[2];
     day = day.length === 1 ? `0${day}` : day;
+    // @ts-ignore
     let year = new Date().getYear() - 100;
     return `${month}/${day}/${year}`;
   }

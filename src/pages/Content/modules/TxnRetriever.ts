@@ -3,6 +3,7 @@ import { AppContext } from './ContextProvider';
 import { mintDate } from './mintDate';
 
 
+// @ts-ignore
 function later(delay) {
   return new Promise(function(resolve) {
       setTimeout(resolve, delay);
@@ -10,6 +11,7 @@ function later(delay) {
 }
 
 
+// @ts-ignore
 async function fetchTransactions(location) {
   let offset = 0;
   const url =
@@ -34,7 +36,8 @@ async function fetchTransactions(location) {
 
 export function TxnRetriever() {
   let [waiting, setWaiting] = useState(false);
-  let [appContext, setAppContext] = useContext(AppContext);
+// @ts-ignore
+let [appContext, setAppContext] = useContext(AppContext);
 
   useEffect(() => {
     let { location, transactions } = appContext;
@@ -51,6 +54,7 @@ export function TxnRetriever() {
     fetchTransactions(location).then(
       (response) => {
         let transactions = response.set[0].data;
+        // @ts-ignore
         transactions.forEach((t) => (t.date = mintDate(t.date)));
         setAppContext({ ...appContext, transactions });
         setWaiting(false);

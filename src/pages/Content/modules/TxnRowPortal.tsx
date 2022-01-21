@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// @ts-ignore
 export function RowPortal(props) {
+  // @ts-ignore
   const filterProps = { ...props };
   delete filterProps.container;
 

@@ -1,8 +1,10 @@
 import React, {createContext, useState} from 'react'
 
+// @ts-ignore
 export const Context = React.createContext();
 
-export const ContextProvider = ({children}) => {
+// @ts-ignore
+export const ContextProvider = ({ children }) => {
 
     const [context, setContext] = useState({
         name:"Learning React",

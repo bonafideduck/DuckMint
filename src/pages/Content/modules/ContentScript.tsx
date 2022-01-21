@@ -5,6 +5,7 @@ import { ContextProvider } from './ContextProvider';
 import { Watcher } from './Watcher';
 import { TxnDealer } from './TxnDealer';
 
+// @ts-ignore
 function Child({ el }) {
   return ReactDOM.createPortal(<h2>Portal Test</h2>, el);
 }
@@ -14,9 +15,12 @@ export function ContentScript() {
   console.log('el', el);
   return (
     <ContextProvider>
+      {/* @ts-ignore */}
       <Watcher />
       {el && <Child el={el} />}
+      {/* @ts-ignore */}
       <TxnRetriever />
+      {/* @ts-ignore */}
       <TxnDealer />
     </ContextProvider>
   );
