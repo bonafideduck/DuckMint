@@ -62,7 +62,7 @@ export function Watcher() {
   }, [state, appContext, setAppContext]);
 
   if (!appContext.debug) {
-    return "";
+    return <></>;
   }
 
   return (

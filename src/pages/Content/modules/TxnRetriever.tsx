@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from './ContextProvider';
 import { mintDate } from './mintDate';
 
@@ -36,8 +36,7 @@ async function fetchTransactions(location) {
 
 export function TxnRetriever() {
   let [waiting, setWaiting] = useState(false);
-// @ts-ignore
-let [appContext, setAppContext] = useContext(AppContext);
+  let { appContext, setAppContext } = useContext(AppContext);
 
   useEffect(() => {
     let { location, transactions } = appContext;
@@ -67,5 +66,5 @@ let [appContext, setAppContext] = useContext(AppContext);
     );
   }, [appContext, setAppContext, waiting, setWaiting]);
 
-  return '';
+  return <>''</>;
 }

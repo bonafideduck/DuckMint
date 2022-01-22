@@ -23,11 +23,11 @@ function getOrCreateContainer(row) {
 export function TxnDealer() {
   console.log("MWE: DealTransactions Entered ");
   // @ts-ignore
-  let [appContext] = useContext(AppContext);
+  let { appContext } = useContext(AppContext);
 
   if (appContext.transRowWait) {
     console.log("MWE: DealTransactions transRowWait ");
-    return '';
+    return <></>;
   }
 
   let trans = [...appContext.transactions];
