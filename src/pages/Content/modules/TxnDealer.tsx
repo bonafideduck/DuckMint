@@ -37,7 +37,6 @@ export function TxnDealer() {
 
   console.log("MWE: DealTransactions ForRows ");
 
-  // @ts-ignore
   for (let [key, row] of rows.entries()) {
     let child = mineTransRow(row);
     let index = trans.findIndex((t) =>
