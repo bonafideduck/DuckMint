@@ -1,17 +1,17 @@
 import { mintDate } from './mintDate';
-// @ts-ignore
-export function mineTransRow(row) {
-  let result = {};
+import { TxnRecord } from './d';
 
-  // @ts-ignore
-  result.pending = row.classList.contains('pending');
-  // @ts-ignore
-  result.date = mintDate((row.querySelector('td.date') || {}).innerText);
-  // @ts-ignore
-  result.description = (row.querySelector('td.description') || {}).innerText;
-  // @ts-ignore
-  result.category = (row.querySelector('td.cat') || {}).innerText;
-  // @ts-ignore
-  result.amount = (row.querySelector('td.money') || {}).innerText;
-  return result;
+function querySelectorText(el: HTMLElement, selector: string, onFail: any) {
+  return (el.querySelector(selector) as HTMLElement)?.innerText || onFail;
+}
+
+export function mineTransRow(row: HTMLElement): TxnRecord {
+
+  return {
+    pending: row.classList.contains('pending'),
+    date: mintDate(querySelectorText(row, 'td.date', undefined)),
+    description: querySelectorText(row, 'td.description', "unknown"),
+    category: querySelectorText(row, 'td.cat', "unknown"),
+    amount: querySelectorText(row, 'td.money', 0.0),
+  }
 }

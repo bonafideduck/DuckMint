@@ -3,16 +3,14 @@ import { AppContext } from './ContextProvider';
 import { mintDate } from './mintDate';
 
 
-// @ts-ignore
-function later(delay) {
+function later(delay: number) {
   return new Promise(function(resolve) {
       setTimeout(resolve, delay);
   });
 }
 
 
-// @ts-ignore
-async function fetchTransactions(location) {
+async function fetchTransactions(location: Location) {
   let offset = 0;
   const url =
     'https://mint.intuit.com/app/getJsonData.xevent' +
@@ -53,8 +51,7 @@ export function TxnRetriever() {
     fetchTransactions(location).then(
       (response) => {
         let transactions = response.set[0].data;
-        // @ts-ignore
-        transactions.forEach((t) => (t.date = mintDate(t.date)));
+        transactions.forEach((t: any) => (t.date = mintDate(t.date)));
         setAppContext({ ...appContext, transactions });
         setWaiting(false);
       },

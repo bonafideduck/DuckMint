@@ -1,4 +1,4 @@
-const monthNum = {
+const monthNum: { [key: string]: string | undefined } = {
   "JAN": "01",
   "FEB": "02",
   "MAR": "03",
@@ -13,10 +13,11 @@ const monthNum = {
   "DEC": "12",
 };
 
-// @ts-ignore
-export function mintDate(date) {
+export function mintDate(date: string | undefined): string {
+  const failDate = "01/01/00";
+
   if (typeof date != 'string') {
-    return null;
+    return failDate;
   }
   if (date.match(/^\d\d\/\d\d\/\d\d$/)) {
     return date;
@@ -24,15 +25,14 @@ export function mintDate(date) {
   let match = date.match(/^([A-Za-z]{3}) (\d\d?)$/);
 
   if (match) {
-    // @ts-ignore
     let month = monthNum[match[1].toUpperCase()];
     if (!month) {
-      return null;
+      return failDate;
     }
     let day = match[2];
     day = day.length === 1 ? `0${day}` : day;
-    // @ts-ignore
-    let year = new Date().getYear() - 100;
+    let year = (new Date()).getFullYear() - 100;
     return `${month}/${day}/${year}`;
   }
+  return failDate;
 }

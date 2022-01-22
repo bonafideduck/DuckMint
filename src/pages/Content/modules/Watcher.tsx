@@ -52,7 +52,6 @@ export function Watcher() {
         appContext.transactions.length <= document.querySelectorAll("#transaction-list tbody tr").length
       ) {
         setTimeout(() => {
-          // @ts-ignore
           setAppContext({ ...appContext, transRowWait: false });
         }, 1000);
       }
