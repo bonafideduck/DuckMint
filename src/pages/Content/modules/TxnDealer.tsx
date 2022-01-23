@@ -60,8 +60,7 @@ export function TxnDealer() {
     );
   }
 
-  // @ts-ignore
-  document.mwechildren = children;
+  (document as any).mwechildren = children;
   console.log("MWE: DealTransactions Return Children");
   return <>
     {children}

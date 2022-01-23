@@ -5,9 +5,10 @@ function locationChangeAppUpdates() {
   return {
     location: document.location,
     transactions: [],
-    transRowWait: Boolean,
+    transRowWait: true,
   };
 }
+
 export function Watcher() {
   let [state, setState] = useState({
     popStates: 0,
@@ -20,7 +21,6 @@ export function Watcher() {
     const onPopState = () => {
       console.log("MWE: onPopState");
       setState({ ...state, popStates: state.popStates + 1 });
-      // @ts-ignore
       setAppContext({ ...appContext, ...locationChangeAppUpdates()});
     };
     window.addEventListener('popstate', onPopState);
@@ -31,7 +31,6 @@ export function Watcher() {
     const onHashChange = () => {
       console.log("MWE: onPopState");
       setState({ ...state, hashChanges: state.hashChanges + 1 });
-      // @ts-ignore
       setAppContext({ ...appContext, ...locationChangeAppUpdates() });
     };
     window.addEventListener('hashchange', onHashChange);
@@ -43,7 +42,6 @@ export function Watcher() {
       if (document.location.href !== appContext.location.href) {
         console.log("MWE: onInterval");
         setState({ ...state, onInterval: state.onInterval + 1 });
-        // @ts-ignore
         setAppContext({ ...appContext, ...locationChangeAppUpdates() });
       } else if (
         appContext.transRowWait &&

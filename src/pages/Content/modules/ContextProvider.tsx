@@ -1,15 +1,27 @@
 import React, { createContext, useState } from 'react';
 
+interface txnFromMint {
+  date: string,
+  merchant: string,
+  category: string,
+  isDebit: string,
+  amount: string,
+  id: string,
+  note: string,
+};
+
 interface AppContextProps {
   debug: boolean,
-  transactions: any[],
+  transactions: txnFromMint[],
   location: Location,
   transRowWait: boolean,
 }
 
+type SetAppContextType = (value: AppContextProps) => void;
+
 type AppContextType = {
   appContext: AppContextProps,
-  setAppContext: (value: AppContextProps) => void
+  setAppContext: SetAppContextType,
 }
 
 const defaults = {
@@ -27,18 +39,15 @@ export const AppContext = createContext<AppContextType>(defaults);
 export const ContextProvider: React.FC = ({ children }) => {
   const [appContext, setAppContext] = useState({
     debug: false,
-    transactions: [],
+    transactions: [] as txnFromMint[],
     location: document.location,
     transRowWait: true,
   });
 
-  // @ts-ignore
-  document.mwec = appContext;
-  // @ts-ignore
-  document.mwesc = setAppContext;
+  (document as any).mwec = appContext;
+  (document as any).mwesc = setAppContext;
 
   return (
-    // @ts-ignore
     <AppContext.Provider value={{ appContext, setAppContext }}>
       {children}
     </AppContext.Provider>
