@@ -3,3 +3,10 @@ table.transactions tbody td.checkboxes.checkboxes,
 table.transactions tbody td.checkboxes.checkboxes {
   width: 10%;
 }
+
+a#txnEdit-category_picker.noattachcol.noattachcol, 
+a#txnEdit-category_picker-multi.noattachcol.noattachcol, 
+a#txnEdit-category_picker, 
+a#txnEdit-category_picker-multi {
+  left: 512px;
+}
