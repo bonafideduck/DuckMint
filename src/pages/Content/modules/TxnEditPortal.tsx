@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 function getOrCreateTxnContainer() {
-  let container = document.querySelector('#txnEdit-checkbox ~ span.duck-container');
+  let container = document.querySelector('#txnEdit-basic span.duck-container');
   console.log("MWE: getOrCreateTxnContainer");
 
   if (!container) {
