@@ -12,6 +12,7 @@ export function mineTransRow(row: HTMLElement): TxnRecord {
     date: mintDate(querySelectorText(row, 'td.date', undefined)),
     description: querySelectorText(row, 'td.description', "unknown"),
     category: querySelectorText(row, 'td.cat', "unknown"),
-    amount: querySelectorText(row, 'td.money', 0.0),
+    amount: querySelectorText(row, 'td.money', "$0.0"),
+    icon: '�',
   }
 }

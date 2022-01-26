@@ -28,32 +28,45 @@ export function TxnDealer() {
     return <></>;
   }
 
-  let trans = [...appContext.transactions];
+  const trans = appContext.transactions;
   let rows = [...document.querySelectorAll("#transaction-list tbody tr")];
   let children = [];
 
   console.log("MWE: DealTransactions ForRows ");
 
-  for (let [key, row] of rows.entries()) {
+  for (let [index, row] of rows.entries()) {
     let child = mineTransRow(row as HTMLElement);
-    let index = trans.findIndex((t) =>
-      (t.date === child.date) &&
-      (t.merchant === child.description) &&
-      (t.category === child.category) &&
-      (Number(t.isDebit ? "-" : "" + t.amount) === child.amount)
-    );
-    if (index >= 0) {
-      child.key = trans[index].id;
-      child.note = trans[index].note;
-      trans.splice(index, 1);
+    let trans = appContext.transactions[index];
+    if ((trans.date === child.date) &&
+      (trans.merchant === child.description) &&
+      (trans.category === child.category) &&
+      (trans.isDebit ? "-" : "" + trans.amount === child.amount)
+    ) {
+      child.note = trans.note;
+      const tag = /\n?🦆([^🌱]+)🌱([\d-.]+)🌿/;
+      let match = child.note.match(tag);
+      if (match) {
+        if (child.category == match[1] && child.amount == match[2]) {
+          child.icon = '🌿';
+        } else {
+          child.icon = '🍁';
+        }
+      } else {
+        child.icon = '🦆';
+        if (child.category == 'aa Expenses') {
+          console.log('MWE: deleteme');
+          child.icon = '🌿';
+        }
+      }
     } else {
-      child.key = key;
       child.note = "";
+      child.icon = '�';
     }
+    child.index = index;
     child.pending = !!child.pending;
     children.push(
       <RowPortal
-        key={child.key}
+        key={child.index}
         container={getOrCreateContainer(row as HTMLElement)}
         {...child}
       />
